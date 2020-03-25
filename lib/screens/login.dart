@@ -11,14 +11,17 @@ class LoginForm extends StatefulWidget{
 
 class _LoginFormState extends State<LoginForm>{
 
+  var _formKey = GlobalKey<FormState>();
   String email = "";
   String password = "";
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Container(
-      margin: EdgeInsets.all(20.0),
-      child: Column(
+    return Form(
+      key: _formKey,
+        child: Padding(
+      padding: EdgeInsets.all(20.0),
+      child: ListView(
         children: <Widget>[
       Padding(
       padding: EdgeInsets.only(top: 70.0),
@@ -27,42 +30,58 @@ class _LoginFormState extends State<LoginForm>{
 
          Padding(
            padding: EdgeInsets.only(top: 50.0),
-           child: TextField(
+           child: TextFormField(
+             validator: (String value){
+               if(value.isEmpty){
+                 return "Please enter email";
+               // ignore: missing_return
+               }
+             },
              decoration: InputDecoration(
                  labelText: 'Email',
                  hintText: 'Enter a valid email address',
+               border: OutlineInputBorder(
+                 borderRadius: BorderRadius.circular(5.0),
+               )
              ),
-             onSubmitted: (String userInput){
-               email = userInput;
-             },
            )
          ),
 
       Padding(
-        padding: EdgeInsets.only(top: 5.0),
-          child: TextField(
+        padding: EdgeInsets.only(top: 20.0),
+          child: TextFormField(
+            validator: (String value){
+              if(value.isEmpty){
+                return "Please enter password";
+                // ignore: missing_return
+              }
+            },
             decoration: InputDecoration (
               labelText: 'Password',
               hintText: 'Enter password',
-
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(5.0),
+                )
             ),
-            onSubmitted: (String userInput){
-              password = userInput;
-            },
           )),
     Padding(
     padding: EdgeInsets.only(top: 20.0),
     child: RaisedButton(
-              child: Text('Login'),
+              child: Text(
+                  'Login',
+              textScaleFactor: 1.0,
+              ),
               onPressed: (){
-
+                if(_formKey.currentState.validate()){
+                  print("Okay");
+                }
               },
             )
     ),
 
         ],
       ),
-    );
+    ));
   }
 
   Widget getImageAsset(){
